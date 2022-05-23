@@ -1,4 +1,4 @@
-# Sparkify Postgres
+# Sparkify Redshift
 
 - [About](#about)
 - [Data Warehouse Design Design](#data-warehouse-design)
@@ -21,7 +21,7 @@ The data resides in S3, in a directory of JSON logs on user activity (```s3://ud
 
 ### Database Schema
 
-Using the user activity and song metadata, we'll create two staging tables and a star schema optimized for queries on song play analysis. This includes the following tables:
+Using the user activity and song metadata, two staging tables and a star schema optimized for queries on song play analysis are created. This includes the following tables:
 
 
 - Staging tables: **events_staging**, **songs_staging**
@@ -74,13 +74,13 @@ Docker compose will spin up one container:
 
 ### Create Redshift Data Warehouse on AWS
 
-Run the ```IaC.ipynb``` notebook. It will walk you through the steps to create a Redshift cluster.
+Run the ```IaC.ipynb``` notebook. The notebook will walk you through the steps to create a Redshift cluster.
 
 ### Create the Data Warehouse
 
-You can run the creation of the Data Warehouse tables in the ```IaC.ipynb``` notebook after creation of the Redshift cluster.
+You can create the Data Warehouse tables by running the appropriate cells in the ```IaC.ipynb``` notebook after creation of the Redshift cluster.
 
-Alternative, after creation of the Redshift cluster, you can create_tables.py:
+Alternative, after creation of the Redshift cluster, you can run ```create_tables.py```:
 
 ```cmd
 
@@ -90,9 +90,9 @@ docker-compose run --rm jupyter_notebook python src/scripts/create_tables.py
 
 ### Execute ETL Pipeline
 
-You can run the ETL pipeline in the ```IaC.ipynb``` notebook after creation of the Redshift cluster and data warehouse tables.
+You can run the ETL pipeline by running the appropriate cells in the ```IaC.ipynb``` notebook after creation of the Redshift cluster and data warehouse tables.
 
-Alternatively, after creation of the Redshift cluster and running ```create_tables.py```, you can run etl.py:
+Alternatively, after creation of the Redshift cluster and running ```create_tables.py```, you can run ```etl.py```:
 
 ```cmd
 
