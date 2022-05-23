@@ -1,7 +1,7 @@
 # Sparkify Postgres
 
 - [About](#about)
-- [Database Design](#database-design)
+- [Data Warehouse Design Design](#data-warehouse-design)
 - [ETL Pipeline Design](#etl-pipeline-design)
 - [Getting Started](#getting-started)
 - [Directory Strucure](#directory-structure)
