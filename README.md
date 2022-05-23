@@ -9,7 +9,7 @@
 
 ## About
 
-A startup called Sparkify has been growing their user base and wants to move their process and data onto the cloud to continue to be able to analyze the data they've been collecting on songs and user activity on their new music streaming app. Currently the data resides in S3 and we will create data warehouse (AWS Redshift) and an ETL pipeline that extracts Sparkify's data from S3, stages them in AWS Redshift and transforms the data into a set of dimensional tables in the data warehouse.
+A startup called Sparkify has been growing their user base and wants to move their process and data onto the cloud to continue to be able to analyze the data they've been collecting on songs and user activity on their new music streaming app. Currently the data resides in S3 and it is required to create a data warehouse (AWS Redshift) and an ETL pipeline that extracts Sparkify's data from S3, stages the data before transforming the data into a set of dimensional tables in the data warehouse.
 
 ## Data Warehouse Design
 
