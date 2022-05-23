@@ -2,8 +2,8 @@ FROM jupyter/minimal-notebook
 
 WORKDIR /home/$NB_USER/work
 
-COPY ./data ./data
-COPY pyproject.toml ./
+COPY pyproject.toml poetry.lock ./
+COPY dwh.cfg ./
 
 ENV PYTHONPATH=${PYTHONPATH}:${PWD}
 
