@@ -9,33 +9,36 @@
 
 ## About
 
-A startup called Sparkify wants to analyze the data they've been collecting on songs and user activity on their new music streaming app. Currently there is no easy way for Sparkify's analytics team to query their data to better understand their user's listening behaviour. In order to help out Sparkify's analytics team, we'll create an ETL (Extract, Transform and Load) Pipeline to extract user activity and song data from JSON files and ingest the data into a Postgres Database.  
+A startup called Sparkify has been growing their user base and wants to move their process and data onto the cloud to continue to be able to analyze the data they've been collecting on songs and user activity on their new music streaming app. Currently the data resides in S3 and we will create data warehouse (AWS Redshift) and an ETL pipeline that extracts Sparkify's data from S3, stages them in AWS Redshift and transforms the data into a set of dimensional tables in the data warehouse.
 
-## Database Design
+## Data Warehouse Design
 
 ### Data
 
-The data consists of JSON logs on user activity (**log_data**) and song meta data (**song_data**)
+The data resides in S3, in a directory of JSON logs on user activity (```s3://udacity-dend/log_data
+```) in the app as well as a directory with JSON metadata on the songs (```s3://udacity-dend/song_data```) in their app:
+
 
 ### Database Schema
 
-Using the song and log datasets, we'll create a star schema optimized for queries on song play analysis. This includes the following tables:
+Using the user activity and song metadata, we'll create two staging tables and a star schema optimized for queries on song play analysis. This includes the following tables:
 
 
+- Staging tables: **events_staging**, **songs_staging**
 - Fact table: **songplays**.
 - Dimension tables: **songs**, **artists**, **users**, **time**. 
 
-![sparkify-postgres-schema](sparkify-postgres-schema.png)
 
 ## ETL Pipeline Design
 
 The ETL pipline comprises the following components:
 
-- ETL of song data into songs table from song_data JSON files.
-- ETL of artist data into artists table from song_data JSON files.
-- ETL of time data into time table from log_data JSON files.
-- ETL of user data into users table from log_data JSON files.
-- ETL of songplay data into songplays table from log_data JSON files.
+- ETL of user activity and song metadata into staging tables events_staging and songs_staging. 
+- ETL of song data into songs table from songs_staging table.
+- ETL of artist data into artists table from songs_staging table.
+- ETL of time data into time table from events_staging.
+- ETL of user data into users table from events_staging table.
+- ETL of songplay data into songplays table from events_staging and songs_staging tables.
 
 ## Getting Started
 
@@ -43,7 +46,9 @@ The ETL pipline comprises the following components:
 
 - Docker
 - Jupyter Notebook
-- Postgres
+- Boto3
+- AWS S3
+- AWS Redshift
 
 ### Build the containers
 
@@ -55,7 +60,7 @@ docker compose build
 
 ```
 
-### Start the containers
+### Start the container
 
 ```cmd
 
@@ -63,14 +68,19 @@ docker compose up
 
 ```
 
-Docker compose will spin up two containers:
+Docker compose will spin up one container:
 
-- sparkifydb (a postgres database)
 - jupyter (jupyter notebook container)
 
-### Create the Database Schema
+### Create Redshift Data Warehouse on AWS
 
-Run create_tables.py:
+Run the ```IaC.ipynb``` notebook. It will walk you through the steps to create a Redshift cluster.
+
+### Create the Data Warehouse
+
+You can run the creation of the Data Warehouse tables in the ```IaC.ipynb``` notebook after creation of the Redshift cluster.
+
+Alternative, after creation of the Redshift cluster, you can create_tables.py:
 
 ```cmd
 
@@ -80,7 +90,9 @@ docker-compose run --rm jupyter_notebook python src/scripts/create_tables.py
 
 ### Execute ETL Pipeline
 
-Run etl.py:
+You can run the ETL pipeline in the ```IaC.ipynb``` notebook after creation of the Redshift cluster and data warehouse tables.
+
+Alternatively, after creation of the Redshift cluster and running ```create_tables.py```, you can run etl.py:
 
 ```cmd
 
@@ -106,7 +118,7 @@ docker exec -it jupyter bash
 |
 ├── src                         <- Source code for use in this project.
 |   ├── notebooks           
-|   |   └── etl.ipynb           <- Notebook for ETL development.
+|   |   └── IaC.ipynb           <- Noteook for Infrastructure-as-Code deployment and disposal of infrastructure. 
 |   |         
 |   └── scripts  
 |       ├── etl.py              <- Script to execute ETL pipeline.
