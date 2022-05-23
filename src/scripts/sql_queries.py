@@ -73,7 +73,7 @@ songplay_table_create = ("""
 
 user_table_create = ("""
     CREATE TABLE IF NOT EXISTS users (
-        user_id INT PRIMARY KEY, 
+        user_id INT SORTKEY, 
         first_name VARCHAR,
         last_name VARCHAR,
         gender VARCHAR,
